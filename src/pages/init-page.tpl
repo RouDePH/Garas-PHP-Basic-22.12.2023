@@ -5,6 +5,8 @@
     <title>Homework 1</title>
 </head>
 <body>
+
 <h1> <?php echo $text; ?> </h1>
+
 </body>
 </html>
