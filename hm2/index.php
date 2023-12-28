@@ -6,7 +6,7 @@
 //
 //- приймає кілька числових аргументів і виводить їх суму та середне арифметичне
 
-function getValueFromConsole(string $title, callable $validator): string | int | float
+function getValueFromConsole(string $title, callable $validator): string|int|float
 {
     do {
         $result = readline($title);
@@ -17,10 +17,10 @@ function getValueFromConsole(string $title, callable $validator): string | int |
 $nameValidator = fn($input) => strlen($input) > 0;
 $numberValidator = fn($input) => is_numeric($input);
 
-$name = getValueFromConsole("Enter your name: ", $nameValidator);
+(string)$name = getValueFromConsole("Enter your name: ", $nameValidator);
 echo "Hello $name!\n";
 
-$firstNumber = getValueFromConsole("Enter first number: ", $numberValidator);
-$secondNumber = getValueFromConsole("Enter second number: ", $numberValidator);
+(int)$firstNumber = getValueFromConsole("Enter first number: ", $numberValidator);
+(int)$secondNumber = getValueFromConsole("Enter second number: ", $numberValidator);
 
-echo "$firstNumber + $secondNumber = ".($firstNumber + $secondNumber)."\n";
+echo "$firstNumber + $secondNumber = " . ($firstNumber + $secondNumber) . "\n";
