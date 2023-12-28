@@ -17,22 +17,26 @@ echo "Strict Comparison:\n";
 var_dump($integerValue === $floatValue);
 var_dump($integerValue === $stringValue);
 var_dump($booleanValue === $integerValue);
+var_dump($nullValue === $booleanValue);
 echo "\n";
 
 echo "Non-strict Comparison:\n";
 var_dump($integerValue == $floatValue);
 var_dump($integerValue == $stringValue);
 var_dump($booleanValue == $integerValue);
+var_dump($nullValue == $booleanValue);
 echo "\n";
 
 echo "Type Casting with Strict Comparison:\n";
 var_dump($integerValue === (int)$floatValue);
 var_dump($stringValue === (string)$integerValue);
 var_dump($booleanValue === (bool)$integerValue);
+var_dump((bool)$nullValue === $booleanValue);
 echo "\n";
 
 echo "Type Casting with Non-strict Comparison:\n";
 var_dump($integerValue == (int)$floatValue);
 var_dump($stringValue == (string)$integerValue);
 var_dump($booleanValue == (bool)$integerValue);
+var_dump((bool)$nullValue == $booleanValue);
 echo "\n";
