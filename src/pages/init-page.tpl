@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1> <?php echo $text; ?> </h1>
+<h1> <?= $text; ?> </h1>
 
 </body>
 </html>

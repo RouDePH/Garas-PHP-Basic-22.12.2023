@@ -6,6 +6,6 @@
 </head>
 <body>
 <h1> Something went wrong.. </h1>
-<h2> <?php echo $error; ?> </h2>
+<h2> <?= $error; ?> </h2>
 </body>
 </html>
