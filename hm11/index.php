@@ -12,4 +12,3 @@ $data = getValueFromConsole("Enter data: ", STRING_VALIDATOR);
 
 $isSuccess = writeLog($data);
 if ($isSuccess !== false) showLogs();
-
