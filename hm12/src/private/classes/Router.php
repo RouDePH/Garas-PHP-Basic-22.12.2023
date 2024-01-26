@@ -19,9 +19,8 @@ class Router
     {
         try {
             foreach ($this->routes as $route) {
-                if ($route['method'] === $method && $this->matchPath($route['path'], $uri)) {
+                if ($route['method'] === $method && $this->matchPath($route['path'], $uri))
                     Response::success(200, call_user_func($route['handler']));
-                }
             }
             Response::error(404, "Route not found");
         } catch (Exception $ex) {
