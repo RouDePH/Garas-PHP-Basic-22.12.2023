@@ -29,7 +29,7 @@ class DebitAccount implements IBankAccount
      */
     private function setBalance(int $balance): void
     {
-        if ($balance < 0) throw new Exception("The debit account cannot use credit funds");
+        if ($balance < 0) throw new Exception("The debit account [" . $this->getAccountNumber() . "] cannot use credit funds");
         $this->balance = $balance;
     }
 
