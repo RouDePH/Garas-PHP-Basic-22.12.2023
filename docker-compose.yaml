@@ -6,11 +6,11 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./hm14:/var/www/html
+      - ./hm13:/var/www/html
       - ./default.conf:/etc/nginx/conf.d/default.conf
     links:
       - php-fpm
   php-fpm:
     image: php:8-fpm
     volumes:
-      - ./hm14:/var/www/html
+      - ./hm13:/var/www/html
