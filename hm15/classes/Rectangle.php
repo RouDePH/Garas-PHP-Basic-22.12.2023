@@ -34,7 +34,7 @@ class Rectangle extends Figure
     private function setLength(float|int $length): void
     {
         if ($length <= 0)
-            throw new Exception("Length must be positive numbers.");
+            throw new Exception("Length must be positive number.");
         $this->length = $length;
     }
 
@@ -44,7 +44,7 @@ class Rectangle extends Figure
     private function setWidth(float|int $width): void
     {
         if ($width <= 0)
-            throw new Exception("Width must be positive numbers.");
+            throw new Exception("Width must be positive number.");
         $this->width = $width;
     }
 
