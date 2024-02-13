@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Classes\{MysqlQueryBuilder, Request, Response};
+use Classes\{Request, Response};
 use Models\UserRepository;
 use Traits\ExceptionHandling;
 
@@ -14,24 +14,18 @@ class UserController
     use ExceptionHandling;
     use JWTClient;
 
-
-    //TODO: REFACTOR
     static function signIn(): Closure
     {
         return self::handleException(
             function (Request $req, Response $res) {
                 $body = $req->getBody();
 
-                $queryBuilder = new MysqlQueryBuilder();
+                $params = [
+                    "email" => $body["email"],
+                    "password" => $body["password"]
+                ];
 
-                $query = $queryBuilder
-                    ->select("users", ['id', "full_name", "email", "active", "role"])
-                    ->where("email")
-                    ->where("password")
-                    ->getSQL();
-
-                $userRepository = new UserRepository();
-                $user = $userRepository->query($query, [$body['email'], $body['password']])[0] ?? null;
+                $user = UserRepository::getByParams($params);
 
                 if (!$user) {
                     $res::error(404, "User not found");
@@ -44,33 +38,28 @@ class UserController
         );
     }
 
-    //TODO: REFACTOR
     static function signUp(): Closure
     {
         return self::handleException(
             function (Request $req, Response $res) {
-
                 $body = $req->getBody();
-                $queryBuilder = new MysqlQueryBuilder();
 
-                $query = $queryBuilder
-                    ->insert("users", ["full_name", "email", "password"])
-                    ->getSQL();
+                $params = [
+                    "full_name" => $body["full_name"],
+                    "email" => $body["email"],
+                    "password" => $body["password"]
+                ];
 
-                $userRepository = new UserRepository();
-                $userRepository->query($query, [$body['full_name'], $body['email'], $body['password']]);
+                UserRepository::create($params);
 
-                $query = $queryBuilder
-                    ->select("users", ['id', "full_name", "email", "active", "role"])
-                    ->where("email")
-                    ->getSQL();
+                $searchParams = [
+                    "email" => $body["email"]
+                ];
 
-                $user = $userRepository->query($query, [$body['email']])[0];
-
+                $user = UserRepository::getByParams($searchParams);
                 $token = self::signAccessJWT(["id" => $user["id"]]);
-                $user["token"] = $token;
 
-                $res::success(200, $user);
+                $res::success(200, ["accessToken" => $token, "user" => $user]);
             }
         );
     }
@@ -93,7 +82,8 @@ class UserController
     {
         return self::handleException(
             function (Request $req, Response $res) {
-                $res::success(200, $req->getAttributes()['user']);
+                $user = $req->getAttributes()['user'];
+                $res::success(200, ["user" => $user]);
             }
         );
     }

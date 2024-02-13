@@ -23,20 +23,24 @@ class UserRepository
         return $db->lastInsertId();
     }
 
-    public static function getById(int $id): mixed
+    public static function getByParams(array $params): mixed
     {
         $db = DatabaseConnection::getConnection();
         $queryBuilder = new MysqlQueryBuilder();
 
+        $fields = array_keys($params);
+        $placeholders = implode(' = ? AND ', $fields);
+
         $query = $queryBuilder
             ->select("users", ["id", "full_name", "email", "active", "role"])
-            ->where("id")
+            ->where($placeholders)
             ->getSQL();
 
         $stmt = $db->prepare($query);
-        $stmt->execute([$id]);
+        $stmt->execute(array_values($params));
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public static function update(int $id, array $params): bool
     {

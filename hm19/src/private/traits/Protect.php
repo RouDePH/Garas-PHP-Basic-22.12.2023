@@ -2,11 +2,9 @@
 
 namespace Traits;
 
-
 use Closure;
 use Models\UserRepository;
 use Classes\{Request, Response};
-use Interfaces\IHandler;
 
 trait Protect
 {
@@ -16,7 +14,7 @@ trait Protect
     static function protect(): Closure
     {
         return self::handleException(
-            function (Request $req, Response $res, ?IHandler $next) {
+            function (Request $req, Response $res) {
 
                 $accessToken = null;
 
@@ -29,10 +27,14 @@ trait Protect
                 }
 
                 $decoded = self::verifyAccessJWT($accessToken);
-                $userRepository = new UserRepository();
-                $user = $userRepository->getById($decoded->id);
 
-                if(!$user){
+                $params = [
+                    "id" => $decoded->id
+                ];
+
+                $user = UserRepository::getByParams($params);
+
+                if (!$user) {
                     $res::error(404, "The user with this token no longer exists");
                 }
 
@@ -44,7 +46,7 @@ trait Protect
     public static function restrict(...$roles): Closure
     {
         return self::handleException(
-            function (Request $req, Response $res, ?IHandler $next) use ($roles) {
+            function (Request $req, Response $res) use ($roles) {
                 $userRole = $req->getAttribute('user')['role'] ?? null;
                 if (!in_array($userRole, $roles)) {
                     $res::error(403, "You do not have permission to perform this action");
