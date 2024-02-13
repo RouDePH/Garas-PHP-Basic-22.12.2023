@@ -7,18 +7,33 @@ use PDO;
 
 class UserRepository
 {
-    public static function create($full_name, $email, $password, $active = false, $role = 'user'): false|string
+    public static function create(array $params): false|string
     {
         $db = DatabaseConnection::getConnection();
-        $stmt = $db->prepare("INSERT INTO users (full_name, email, password, active, role) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$full_name, $email, $password, $active, $role]);
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $fields = array_keys($params);
+
+        $query = $queryBuilder
+            ->insert("users", $fields)
+            ->getSQL();
+
+        $stmt = $db->prepare($query);
+        $stmt->execute(array_values($params));
         return $db->lastInsertId();
     }
 
     public static function getById(int $id): mixed
     {
         $db = DatabaseConnection::getConnection();
-        $stmt = $db->prepare("SELECT `id`,`full_name`,`email`,`active`,`role` FROM `users` WHERE id = ?");
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $query = $queryBuilder
+            ->select("users", ["id", "full_name", "email", "active", "role"])
+            ->where("id")
+            ->getSQL();
+
+        $stmt = $db->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
