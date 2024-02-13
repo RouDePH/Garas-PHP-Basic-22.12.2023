@@ -15,15 +15,7 @@ class MysqlQueryBuilder implements SQLQueryBuilder
         $this->query = new stdClass();
     }
 
-    public function insert(string $table, array $fields): SQLQueryBuilder
-    {
-        $this->reset();
-        $fieldsCount = count($fields);
-        $this->query->base = "INSERT INTO " . $table . " (" . implode(", ", $fields) . ") VALUES (" . implode(", ", array_fill(0, $fieldsCount, "?")) . ")";
-        $this->query->type = 'insert';
 
-        return $this;
-    }
 
     public function delete(string $table): SQLQueryBuilder
     {
@@ -43,6 +35,16 @@ class MysqlQueryBuilder implements SQLQueryBuilder
         return $this;
     }
 
+    public function insert(string $table, array $fields): SQLQueryBuilder
+    {
+        $this->reset();
+        $fieldsCount = count($fields);
+        $this->query->base = "INSERT INTO " . $table . " (" . implode(", ", $fields) . ") VALUES (" . implode(", ", array_fill(0, $fieldsCount, "?")) . ")";
+        $this->query->type = 'insert';
+
+        return $this;
+    }
+
     public function select(string $table, array $fields): SQLQueryBuilder
     {
         $this->reset();
@@ -55,12 +57,15 @@ class MysqlQueryBuilder implements SQLQueryBuilder
     /**
      * @throws Exception
      */
-    public function where(string $field, string $value = null, string $operator = '='): SQLQueryBuilder
+    public function where(?string $field, string $value = null, string $operator = '='): SQLQueryBuilder
     {
-        if (!in_array($this->query->type, ['select', 'update', 'delete'])) {
-            throw new Exception("WHERE can only be added to SELECT, UPDATE OR DELETE");
+        if($field){
+            if (!in_array($this->query->type, ['select', 'update', 'delete'])) {
+                throw new Exception("WHERE can only be added to SELECT, UPDATE OR DELETE");
+            }
+            $this->query->where[] = $value ? "$field $operator '$value'" : "$field $operator ?";
+
         }
-        $this->query->where[] = $value ? "$field $operator '$value'" : "$field $operator ?";
 
         return $this;
     }

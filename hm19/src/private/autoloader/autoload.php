@@ -12,4 +12,4 @@ $loader->addNamespace('Routers', AUTOLOADER_DIR . '../routers');
 $loader->addNamespace('Interfaces', AUTOLOADER_DIR . '../interfaces');
 $loader->addNamespace('Traits', AUTOLOADER_DIR . '../traits');
 $loader->addNamespace('JWT', AUTOLOADER_DIR . '../jwt');
-$loader->addNamespace('Models', AUTOLOADER_DIR . '../models');
+$loader->addNamespace('Database', AUTOLOADER_DIR . '../database');

@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Traits\{ExceptionHandling, JWTClient};
 use Classes\{Request, Response};
-use Models\UserRepository;
+use Database\UserRepository;
 
 use Closure;
 
@@ -21,10 +21,11 @@ class UserController
 
                 $params = [
                     "email" => $body["email"],
-                    "password" => $body["password"]
+                    "password" => $body["password"],
+                    "active" => 1
                 ];
 
-                $user = UserRepository::getByParams($params);
+                $user = UserRepository::select($params);
 
                 if (!$user) {
                     $res::error(404, "User not found");
@@ -49,13 +50,13 @@ class UserController
                     "password" => $body["password"]
                 ];
 
-                UserRepository::create($params);
+                UserRepository::insert($params);
 
                 $searchParams = [
                     "email" => $body["email"]
                 ];
 
-                $user = UserRepository::getByParams($searchParams);
+                $user = UserRepository::select($searchParams);
                 $token = self::signAccessJWT(["id" => $user["id"]]);
 
                 $res::success(200, ["accessToken" => $token, "user" => $user]);
@@ -69,7 +70,13 @@ class UserController
             function (Request $req, Response $res) {
                 $queryParams = $req->getQueryParams();
 
-                $users = UserRepository::getAll($queryParams['offset'], $queryParams['limit']);
+                $users = UserRepository::select(
+                    ["active" => 1],
+                    ["id", "full_name", "email", "active", "role"],
+                    $queryParams['offset'],
+                    $queryParams['limit']
+                );
+
                 $count = UserRepository::count();
 
                 $res::success(200, [...$count, "users" => $users]);
@@ -92,9 +99,11 @@ class UserController
         return self::handleException(
             function (Request $req, Response $res) {
                 $body = $req->getBody();
-                $userId = $body['user_id'];
+                $params = [
+                    "id" => $body['user_id']
+                ];
 
-                $result = UserRepository::delete($userId);
+                $result = UserRepository::delete($params);
 
                 if (!$result) {
                     $res::error(404, "The user with this id not found");
@@ -111,10 +120,17 @@ class UserController
             function (Request $req, Response $res) {
                 $userId = $req->getAttribute("user")['id'];
 
-                $result = UserRepository::update($userId, [
-                    "active" => 0,
-                    "deleted_at" => date("Y-m-d H:i:s", time())
-                ]);
+                $params = [
+                    "id" => $userId
+                ];
+
+                $result = UserRepository::update(
+                    $params,
+                    [
+                        "active" => 0,
+                        "deleted_at" => date("Y-m-d H:i:s", time())
+                    ]
+                );
 
                 if (!$result) {
                     $res::error(404, "The user with this id not found");

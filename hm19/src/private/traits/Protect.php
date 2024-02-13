@@ -3,7 +3,7 @@
 namespace Traits;
 
 use Closure;
-use Models\UserRepository;
+use Database\UserRepository;
 use Classes\{Request, Response};
 
 trait Protect
@@ -32,7 +32,7 @@ trait Protect
                     "active" => 1
                 ];
 
-                $user = UserRepository::getByParams($params);
+                $user = UserRepository::select($params);
 
                 if (!$user) {
                     $res::error(404, "The user with this token no longer exists");
