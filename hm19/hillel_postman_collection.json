@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "34da3515-01b8-49e9-9b6c-3043af57bf56",
+		"name": "Hillel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25100797"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8082/api/user/signIn",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc3NzIwMDYsImV4cCI6MTcwNzg1ODQwNiwicGF5bG9hZCI6eyJ1c2VySWQiOjF9fQ.d1YD8tCln1KdK3FhaDXkwX4rkrTTe8LhgNTH7rN5nsE",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"john@example.com\",\r\n    \"password\": \"hashed_password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/user/signIn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user",
+						"signIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/user/getMe",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4MTQ0NDksImV4cCI6MTcwNzkwMDg0OSwicGF5bG9hZCI6eyJpZCI6MX19.Gwk2m06v80MQ7Fig7l1pckgMbAwtIkW2NfyGEUYWCQY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/user/getMe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user",
+						"getMe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/user/",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4MTQ0NDksImV4cCI6MTcwNzkwMDg0OSwicGF5bG9hZCI6eyJpZCI6MX19.Gwk2m06v80MQ7Fig7l1pckgMbAwtIkW2NfyGEUYWCQY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/user?limit=10&offset=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/user/signUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"sgaras@gerc.ua\",\r\n    \"password\": \"password\",\r\n    \"full_name\": \"Sergey Garas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/user/signUp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user",
+						"signUp"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
