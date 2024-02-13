@@ -27,12 +27,8 @@ class ExceptionHandler implements IHandler
     {
         [$request, $response, $next, $exception] = [...$args, null];
         if ($exception instanceof Throwable) {
-            self::log('[ERROR][' . $exception->getFile() . '][' . $exception->getLine() . '] - ' . $exception->getMessage());
-            if ($exception instanceof ApiException) {
-                $response::error($exception->getStatusCode(), $exception->getMessage());
-            } else {
-                $response::error(500, $exception->getMessage());
-            }
+            $statusCode = $exception instanceof ApiException ? $exception->getStatusCode() : 500;
+            $response::error($statusCode, $exception->getMessage());
         } else {
             $next?->handle($request, $response, $next->getNext());
         }

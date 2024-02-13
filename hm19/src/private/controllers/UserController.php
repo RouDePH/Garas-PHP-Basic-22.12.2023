@@ -14,39 +14,14 @@ class UserController
     use ExceptionHandling;
     use JWTClient;
 
-    static function getAllUsers(): Closure
-    {
-        return self::handleException(
-            function (Request $req, Response $res) {
-                $queryBuilder = new MysqlQueryBuilder();
 
-                $queryParams = $req->getQueryParams();
-
-                $query = $queryBuilder
-                    ->select("users", ['id', "full_name", "email", "active", "role"])
-                    ->limit($queryParams['offset'], $queryParams['limit'])
-                    ->getSQL();
-
-                $userRepository = new UserRepository();
-                $users = $userRepository->query($query);
-
-                $query = $queryBuilder
-                    ->select("users", ['COUNT(*) as count'])
-                    ->getSQL();
-
-                $count = $userRepository->query($query)[0]["count"];
-
-                $res::success(200, ["count" => $count, "users" => $users]);
-            }
-        );
-    }
-
+    //TODO: REFACTOR
     static function signIn(): Closure
     {
         return self::handleException(
             function (Request $req, Response $res) {
-
                 $body = $req->getBody();
+
                 $queryBuilder = new MysqlQueryBuilder();
 
                 $query = $queryBuilder
@@ -63,13 +38,13 @@ class UserController
                 }
 
                 $token = self::signAccessJWT(["id" => $user["id"]]);
-                $user["token"] = $token;
 
-                $res::success(200, $user);
+                $res::success(200, ["accessToken" => $token, "user" => $user]);
             }
         );
     }
 
+    //TODO: REFACTOR
     static function signUp(): Closure
     {
         return self::handleException(
@@ -100,12 +75,67 @@ class UserController
         );
     }
 
+    static function getAllUsers(): Closure
+    {
+        return self::handleException(
+            function (Request $req, Response $res) {
+                $queryParams = $req->getQueryParams();
+
+                $users = UserRepository::getAll($queryParams['offset'], $queryParams['limit']);
+                $count = UserRepository::count();
+
+                $res::success(200, [...$count, "users" => $users]);
+            }
+        );
+    }
 
     static function getMe(): Closure
     {
         return self::handleException(
             function (Request $req, Response $res) {
                 $res::success(200, $req->getAttributes()['user']);
+            }
+        );
+    }
+
+    static function delete(): Closure
+    {
+        return self::handleException(
+            function (Request $req, Response $res) {
+                $userRepository = new UserRepository();
+
+                $body = $req->getBody();
+                $userId = $body['user_id'];
+
+                $result = $userRepository::delete($userId);
+
+                if (!$result) {
+                    $res::error(404, "The user with this id not found");
+                }
+
+                $res::success(200);
+            }
+        );
+    }
+
+    static function deactivate(): Closure
+    {
+        return self::handleException(
+            function (Request $req, Response $res) {
+                $userRepository = new UserRepository();
+
+                $userId = $req->getAttribute("user")['id'];
+
+                $result = $userRepository::update($userId, [
+                    "active" => 0,
+                    "deleted_at" => date("Y-m-d H:i:s", time())
+                ]);
+
+                if (!$result) {
+                    $res::error(404, "The user with this id not found");
+                }
+
+                $res::success(200);
             }
         );
     }

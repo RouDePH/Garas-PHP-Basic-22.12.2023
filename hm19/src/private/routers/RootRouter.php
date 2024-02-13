@@ -5,7 +5,7 @@ namespace Routers;
 use Classes\{Request, Response, Router};
 use Traits\{ExceptionHandling};
 
-class BaseRouter
+class RootRouter
 {
     use ExceptionHandling;
 

@@ -17,6 +17,7 @@ trait Protect
     {
         return self::handleException(
             function (Request $req, Response $res, ?IHandler $next) {
+
                 $accessToken = null;
 
                 if ($req->hasHeader('Authorization') && str_starts_with($req->getHeader('Authorization'), 'Bearer')) {
@@ -28,9 +29,12 @@ trait Protect
                 }
 
                 $decoded = self::verifyAccessJWT($accessToken);
-
                 $userRepository = new UserRepository();
                 $user = $userRepository->getById($decoded->id);
+
+                if(!$user){
+                    $res::error(404, "The user with this token no longer exists");
+                }
 
                 $req->addAttribute('user', $user);
             }

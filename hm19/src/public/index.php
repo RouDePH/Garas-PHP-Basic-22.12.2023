@@ -64,17 +64,17 @@ $fee = 1000;
         },
 
         onClick: async (data) => {
-            console.log("onClick", data);
+            console.log("onClick", JSON.stringify(data));
             return {oper_id: <?= $operId ?>};
         },
 
         onValidateApplePay: async (data) => {
-            console.log("onValidateApplePay", data);
+            console.log("onValidateApplePay", JSON.stringify(data));
             return {};
         },
 
         onGettedToken: async (data) => {
-            console.log("onGettedToken", data);
+            console.log("onGettedToken", JSON.stringify(data));
             alert(`onGettedToken\n${JSON.stringify(data)}`);
         },
 

@@ -25,6 +25,24 @@ class MysqlQueryBuilder implements SQLQueryBuilder
         return $this;
     }
 
+    public function delete(string $table): SQLQueryBuilder
+    {
+        $this->reset();
+        $this->query->base = "DELETE FROM " . $table;
+        $this->query->type = 'delete';
+
+        return $this;
+    }
+
+    public function update(string $table, string $placeholders): SQLQueryBuilder
+    {
+        $this->reset();
+        $this->query->base = "UPDATE " . $table. " SET " . $placeholders;
+        $this->query->type = 'delete';
+
+        return $this;
+    }
+
     public function select(string $table, array $fields): SQLQueryBuilder
     {
         $this->reset();

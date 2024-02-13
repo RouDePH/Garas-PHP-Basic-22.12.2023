@@ -21,18 +21,22 @@ class Response
 
     #[NoReturn] public static function error(int $code, mixed $message = null): void
     {
-        static::sendResponse(['status' => "error", 'message' => $message], $code);
+        static::sendResponse(["status" => "error", "message" => $message], $code);
     }
 
     #[NoReturn] public static function success(int $code, mixed $data = null): void
     {
-        static::sendResponse(['status' => "success", 'data' => $data], $code);
+        $responseData = ["status" => "success"];
+        if ($data !== null) {
+            $responseData["data"] = $data;
+        }
+        static::sendResponse($responseData, $code);
     }
 
     #[NoReturn] private static function sendResponse(mixed $data, ?int $code = null): void
     {
         http_response_code($code ?? static::$status);
-        header('Content-Type: application/json');
+        header("Content-Type: application/json");
         echo json_encode($data);
         exit();
     }

@@ -62,12 +62,6 @@ class Route extends AbstractHandler
         $method = $request->getMethod();
         if (isset($this->handlers[$method])) {
             foreach ($this->handlers[$method] as $handler) {
-                self::log(
-                    '[' . $request->getMethod() . ']'
-                        . '[' . $request->getUri() . ']'
-                        . '[' . http_build_query($request->getQueryParams(), '', ", ") . ']'
-                        . '[' . http_build_query($request->getBody(), '', ", ") . ']'
-                );
                 $handler($request, $response, $next);
             }
         }

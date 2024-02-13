@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Classes\{DatabaseConnection};
+use Classes\{DatabaseConnection, MysqlQueryBuilder};
 use PDO;
 
 class UserRepository
@@ -15,7 +15,7 @@ class UserRepository
         return $db->lastInsertId();
     }
 
-    public static function getById($id)
+    public static function getById(int $id): mixed
     {
         $db = DatabaseConnection::getConnection();
         $stmt = $db->prepare("SELECT `id`,`full_name`,`email`,`active`,`role` FROM `users` WHERE id = ?");
@@ -23,28 +23,68 @@ class UserRepository
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function update($id, $full_name, $email, $password, $active, $role): bool
+    public static function update(int $id, array $params): bool
     {
         $db = DatabaseConnection::getConnection();
-        $stmt = $db->prepare("UPDATE users SET full_name = ?, email = ?, password = ?, active = ?, role = ? WHERE id = ?");
-        return $stmt->execute([$full_name, $email, $password, $active, $role, $id]);
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $fields = array_keys($params);
+        $placeholders = implode(' = ?, ', $fields) . ' = ?';
+        $params[] = $id;
+
+        $query = $queryBuilder
+            ->update("users", $placeholders)
+            ->where("id")
+            ->getSQL();
+
+        $stmt = $db->prepare($query);
+        $stmt->execute(array_values($params));
+        return $stmt->rowCount() > 0;
     }
 
-    public static function delete($id): bool
+    public static function delete(int $id): bool
     {
         $db = DatabaseConnection::getConnection();
-        $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
-        return $stmt->execute([$id]);
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $query = $queryBuilder
+            ->delete("users")
+            ->where("id")
+            ->getSQL();
+
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->rowCount() > 0;
     }
 
-    public static function getAll(): false|array
+    public static function getAll(int $offset, int $limit): false|array
     {
         $db = DatabaseConnection::getConnection();
-        $stmt = $db->query("SELECT `id`,`full_name`,`email`,`active`,`role` FROM users");
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $query = $queryBuilder
+            ->select("users", ['id', "full_name", "email", "active", "role"])
+            ->limit($offset, $limit)
+            ->getSQL();
+
+        $stmt = $db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function query(string $sql, array $params = []): ?array
+    public static function count(): false|array
+    {
+        $db = DatabaseConnection::getConnection();
+        $queryBuilder = new MysqlQueryBuilder();
+
+        $query = $queryBuilder
+            ->select("users", ['COUNT(*) as count'])
+            ->getSQL();
+
+        $stmt = $db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
+    }
+
+    public static function query(string $sql, array $params = []): ?array
     {
         $db = DatabaseConnection::getConnection();
 
