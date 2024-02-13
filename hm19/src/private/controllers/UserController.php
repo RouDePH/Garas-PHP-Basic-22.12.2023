@@ -2,12 +2,11 @@
 
 namespace Controllers;
 
+use Traits\{ExceptionHandling, JWTClient};
 use Classes\{Request, Response};
 use Models\UserRepository;
-use Traits\ExceptionHandling;
 
 use Closure;
-use Traits\JWTClient;
 
 class UserController
 {
@@ -92,12 +91,10 @@ class UserController
     {
         return self::handleException(
             function (Request $req, Response $res) {
-                $userRepository = new UserRepository();
-
                 $body = $req->getBody();
                 $userId = $body['user_id'];
 
-                $result = $userRepository::delete($userId);
+                $result = UserRepository::delete($userId);
 
                 if (!$result) {
                     $res::error(404, "The user with this id not found");
@@ -112,11 +109,9 @@ class UserController
     {
         return self::handleException(
             function (Request $req, Response $res) {
-                $userRepository = new UserRepository();
-
                 $userId = $req->getAttribute("user")['id'];
 
-                $result = $userRepository::update($userId, [
+                $result = UserRepository::update($userId, [
                     "active" => 0,
                     "deleted_at" => date("Y-m-d H:i:s", time())
                 ]);

@@ -15,7 +15,6 @@ trait Protect
     {
         return self::handleException(
             function (Request $req, Response $res) {
-
                 $accessToken = null;
 
                 if ($req->hasHeader('Authorization') && str_starts_with($req->getHeader('Authorization'), 'Bearer')) {
@@ -29,7 +28,8 @@ trait Protect
                 $decoded = self::verifyAccessJWT($accessToken);
 
                 $params = [
-                    "id" => $decoded->id
+                    "id" => $decoded->id,
+                    "active" => 1
                 ];
 
                 $user = UserRepository::getByParams($params);
