@@ -9,9 +9,6 @@ class BaseRouter
 {
     use ExceptionHandling;
 
-    const PARTNER_ID = "4";
-    const PARTNER_KEY = "12345";
-
     public static function init(): Router
     {
         $router = new Router("/api/");
