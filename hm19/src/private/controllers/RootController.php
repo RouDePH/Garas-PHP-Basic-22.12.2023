@@ -5,7 +5,7 @@ namespace Controllers;
 use Closure;
 
 use Classes\{Request, Response};
-use Traits\{ExceptionHandling};
+use Traits\ExceptionHandling;
 
 class RootController
 {

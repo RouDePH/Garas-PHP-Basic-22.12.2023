@@ -3,8 +3,9 @@
 namespace Classes;
 
 use Interfaces\IHandler;
-use Throwable;
 use Traits\Loggable;
+
+use Throwable;
 
 class ExceptionHandler implements IHandler
 {

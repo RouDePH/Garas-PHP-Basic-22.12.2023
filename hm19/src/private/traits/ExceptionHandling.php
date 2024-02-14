@@ -2,10 +2,10 @@
 
 namespace Traits;
 
-use Classes\Request;
-use Classes\Response;
-use Closure;
+use Classes\{Request, Response};
 use Interfaces\IHandler;
+
+use Closure;
 use Throwable;
 
 trait ExceptionHandling

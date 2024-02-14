@@ -2,9 +2,9 @@
 
 namespace Routers;
 
-use Controllers\RootController;
-use Classes\{Router};
 use Traits\{ExceptionHandling, InputValidators};
+use Controllers\RootController;
+use Classes\Router;
 
 class RootRouter
 {

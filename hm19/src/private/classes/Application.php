@@ -14,7 +14,8 @@ class Application
     {
         $this->request = new Request();
         $this->response = new Response();
-        $this->middleware = new Middleware(function (Request $request, Response $response) {});
+        $this->middleware = new Middleware(function (Request $request, Response $response) {
+        });
     }
 
     public function use(IHandler $middleware): void

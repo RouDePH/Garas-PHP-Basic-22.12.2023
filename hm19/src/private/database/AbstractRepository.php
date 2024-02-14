@@ -4,6 +4,7 @@ namespace Database;
 
 use Classes\{DatabaseConnection, MysqlQueryBuilder};
 use Interfaces\IRepository;
+
 use PDO;
 
 abstract class AbstractRepository implements IRepository

@@ -2,7 +2,8 @@
 
 namespace Traits;
 
-use JWT\{JWT,Key};
+use JWT\{JWT, Key};
+
 use stdClass;
 
 trait JWTClient

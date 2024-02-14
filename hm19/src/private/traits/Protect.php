@@ -2,9 +2,10 @@
 
 namespace Traits;
 
-use Closure;
 use Database\UserRepository;
 use Classes\{Request, Response};
+
+use Closure;
 
 trait Protect
 {

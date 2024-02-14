@@ -2,8 +2,9 @@
 
 namespace Classes;
 
+use Interfaces\SQLQueryBuilder;
+
 use Exception;
-use Interfaces\{SQLQueryBuilder};
 use stdClass;
 
 class MysqlQueryBuilder implements SQLQueryBuilder
@@ -14,7 +15,6 @@ class MysqlQueryBuilder implements SQLQueryBuilder
     {
         $this->query = new stdClass();
     }
-
 
 
     public function delete(string $table): SQLQueryBuilder
@@ -29,7 +29,7 @@ class MysqlQueryBuilder implements SQLQueryBuilder
     public function update(string $table, string $placeholders): SQLQueryBuilder
     {
         $this->reset();
-        $this->query->base = "UPDATE " . $table. " SET " . $placeholders;
+        $this->query->base = "UPDATE " . $table . " SET " . $placeholders;
         $this->query->type = 'delete';
 
         return $this;
@@ -59,7 +59,7 @@ class MysqlQueryBuilder implements SQLQueryBuilder
      */
     public function where(?string $field, string $value = null, string $operator = '='): SQLQueryBuilder
     {
-        if($field){
+        if ($field) {
             if (!in_array($this->query->type, ['select', 'update', 'delete'])) {
                 throw new Exception("WHERE can only be added to SELECT, UPDATE OR DELETE");
             }

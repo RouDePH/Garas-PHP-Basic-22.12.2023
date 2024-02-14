@@ -2,9 +2,9 @@
 
 namespace Routers;
 
+use Traits\{InputValidators, Protect};
 use Controllers\UserController;
 use Classes\Router;
-use Traits\{InputValidators, Protect};
 
 class UserRouter
 {
