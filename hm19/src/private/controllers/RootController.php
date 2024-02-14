@@ -11,7 +11,6 @@ class RootController
 {
     use ExceptionHandling;
 
-
     static function helloWold(): Closure
     {
         return self::handleException(function (Request $request, Response $response) {

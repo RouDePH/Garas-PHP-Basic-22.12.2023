@@ -22,6 +22,7 @@ class RootRouter
                 self::validateBodyKeys("firstNumber", "secondNumber"),
                 RootController::calculateSum()
             );
+
         return $router;
     }
 }
