@@ -3,7 +3,8 @@
 namespace Traits;
 
 use Closure;
-use Classes\{Request,ApiException};
+use Interfaces\IHandler;
+use Classes\{Request,ApiException, Response};
 
 trait InputValidators
 {
@@ -12,7 +13,7 @@ trait InputValidators
     static function validateBodyKeys(...$requiredKeys): Closure
     {
         return self::handleException(
-            function (Request $req) use ($requiredKeys) {
+            function (Request $req, Response $res, IHandler $next) use ($requiredKeys) {
                 $missingKeys = array_diff($requiredKeys, array_keys($req->getBody()));
                 if (!empty($missingKeys)) {
                     $missingKeysString = implode(', ', $missingKeys);
@@ -25,7 +26,7 @@ trait InputValidators
     static function validateQueryParams(...$requiredKeys): Closure
     {
         return self::handleException(
-            function (Request $req) use ($requiredKeys) {
+            function (Request $req, Response $res, IHandler $next) use ($requiredKeys) {
                 $missingKeys = array_diff($requiredKeys, array_keys($req->getQueryParams()));
                 if (!empty($missingKeys)) {
                     $missingKeysString = implode(', ', $missingKeys);

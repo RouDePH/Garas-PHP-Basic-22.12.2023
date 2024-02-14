@@ -27,6 +27,6 @@ class Router extends AbstractHandler
                 $route->handle($request, $response, $next);
             }
         }
-        $next?->handle($request, $response, $next->getNext());
+        $next?->handle($request, $response, $next->getNext(), ...array_slice($args, 3));
     }
 }
