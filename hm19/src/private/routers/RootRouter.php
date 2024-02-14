@@ -3,7 +3,7 @@
 namespace Routers;
 
 use Controllers\RootController;
-use Classes\{Request, Response, Router};
+use Classes\{Router};
 use Traits\{ExceptionHandling, InputValidators};
 
 class RootRouter
