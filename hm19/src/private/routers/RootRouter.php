@@ -16,7 +16,7 @@ class RootRouter
         $router = new Router("/api/");
         $router->route("")
             ->get(
-                RootController::helloWold()
+                RootController::helloWorld()
             )
             ->post(
                 self::validateBodyKeys("firstNumber", "secondNumber"),
