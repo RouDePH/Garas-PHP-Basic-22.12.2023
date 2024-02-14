@@ -65,6 +65,6 @@ class Route extends AbstractHandler
                 $handler($request, $response, $next);
             }
         }
-        $next?->handle($request, $response, $next->getNext());
+        $next?->handle($request, $response, $next->getNext(), ...array_slice($args, 3));
     }
 }

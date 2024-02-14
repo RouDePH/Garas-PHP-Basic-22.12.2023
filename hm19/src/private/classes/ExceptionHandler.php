@@ -31,7 +31,7 @@ class ExceptionHandler implements IHandler
             $statusCode = $exception instanceof ApiException ? $exception->getStatusCode() : 500;
             $response::error($statusCode, $exception->getMessage());
         } else {
-            $next?->handle($request, $response, $next->getNext());
+            $next?->handle($request, $response, $next->getNext(), ...array_slice($args, 3));
         }
     }
 }

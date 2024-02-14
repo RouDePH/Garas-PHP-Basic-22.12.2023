@@ -16,6 +16,6 @@ class Middleware extends AbstractHandler
         [$request, $response, $next] = $args;
         $callback = $this->callback;
         $callback($request, $response, $next);
-        $next?->handle($request, $response, $next->getNext());
+        $next?->handle($request, $response, $next->getNext(), ...array_slice($args, 3));
     }
 }
