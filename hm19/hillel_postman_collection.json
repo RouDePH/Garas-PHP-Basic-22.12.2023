@@ -9,18 +9,21 @@
 		{
 			"name": "http://localhost:8082/api/user/signIn",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4NDU0OTUsImV4cCI6MTcwNzkzMTg5NSwicGF5bG9hZCI6eyJpZCI6M319.0ZbU7F7OUdHI_5FfcFfafivsUZzzB48iTnG3jmzXhvw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc3NzIwMDYsImV4cCI6MTcwNzg1ODQwNiwicGF5bG9hZCI6eyJ1c2VySWQiOjF9fQ.d1YD8tCln1KdK3FhaDXkwX4rkrTTe8LhgNTH7rN5nsE",
-						"type": "text",
-						"disabled": true
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"john@example.com\",\r\n    \"password\": \"hashed_password\"\r\n}",
+					"raw": "{\r\n    \"email\": \"sgaras@gerc.ua\",\r\n    \"password\": \"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -46,14 +49,18 @@
 		{
 			"name": "http://localhost:8082/api/user/getMe",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4NDU0OTUsImV4cCI6MTcwNzkzMTg5NSwicGF5bG9hZCI6eyJpZCI6M319.0ZbU7F7OUdHI_5FfcFfafivsUZzzB48iTnG3jmzXhvw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4MTQ0NDksImV4cCI6MTcwNzkwMDg0OSwicGF5bG9hZCI6eyJpZCI6MX19.Gwk2m06v80MQ7Fig7l1pckgMbAwtIkW2NfyGEUYWCQY",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
 					"raw": "http://localhost:8082/api/user/getMe",
 					"protocol": "http",
@@ -73,16 +80,20 @@
 		{
 			"name": "http://localhost:8082/api/user/",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4NDU0OTUsImV4cCI6MTcwNzkzMTg5NSwicGF5bG9hZCI6eyJpZCI6M319.0ZbU7F7OUdHI_5FfcFfafivsUZzzB48iTnG3jmzXhvw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4MTQ0NDksImV4cCI6MTcwNzkwMDg0OSwicGF5bG9hZCI6eyJpZCI6MX19.Gwk2m06v80MQ7Fig7l1pckgMbAwtIkW2NfyGEUYWCQY",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/api/user?limit=10&offset=1",
+					"raw": "http://localhost:8082/api/user?limit=10&offset=0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -99,7 +110,7 @@
 						},
 						{
 							"key": "offset",
-							"value": "1"
+							"value": "0"
 						}
 					]
 				}
@@ -131,6 +142,105 @@
 						"api",
 						"user",
 						"signUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4NDU0OTUsImV4cCI6MTcwNzkzMTg5NSwicGF5bG9hZCI6eyJpZCI6M319.0ZbU7F7OUdHI_5FfcFfafivsUZzzB48iTnG3jmzXhvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/user/deactivate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDc4NDU0OTUsImV4cCI6MTcwNzkzMTg5NSwicGF5bG9hZCI6eyJpZCI6M319.0ZbU7F7OUdHI_5FfcFfafivsUZzzB48iTnG3jmzXhvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/user/deactivate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"user",
+						"deactivate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/api/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstNumber\": 1,\r\n    \"secondNumber\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						""
 					]
 				}
 			},
