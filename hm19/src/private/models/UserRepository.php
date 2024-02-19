@@ -1,6 +1,8 @@
 <?php
 
-namespace Database;
+namespace Models;
+
+use Classes\AbstractRepository;
 
 class UserRepository extends AbstractRepository
 {

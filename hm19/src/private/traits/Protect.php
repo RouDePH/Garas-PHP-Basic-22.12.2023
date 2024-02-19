@@ -2,7 +2,7 @@
 
 namespace Traits;
 
-use Database\UserRepository;
+use Models\UserRepository;
 use Classes\{Request, Response};
 
 use Closure;

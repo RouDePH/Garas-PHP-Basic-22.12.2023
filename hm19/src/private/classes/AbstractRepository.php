@@ -1,10 +1,8 @@
 <?php
 
-namespace Database;
+namespace Classes;
 
-use Classes\{DatabaseConnection, MysqlQueryBuilder};
 use Interfaces\IRepository;
-
 use PDO;
 
 abstract class AbstractRepository implements IRepository
@@ -62,7 +60,7 @@ abstract class AbstractRepository implements IRepository
         $searchFields = array_keys($params);
         $searchPlaceholders = implode(' = ? AND ', $searchFields);
 
-        $params = array_merge($fields, $params);
+        $params = array_merge(array_values($fields), array_values($params));
 
         $query = $queryBuilder
             ->update(static::$table, $updatePlaceholders)

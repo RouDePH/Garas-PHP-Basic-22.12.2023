@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Traits\{ExceptionHandling, JWTClient};
 use Classes\{Request, Response};
-use Database\UserRepository;
+use Models\UserRepository;
 
 use Closure;
 
@@ -44,22 +44,32 @@ class UserController
             function (Request $req, Response $res) {
                 $body = $req->getBody();
 
-                $params = [
-                    "full_name" => $body["full_name"],
-                    "email" => $body["email"],
-                    "password" => $body["password"]
-                ];
-
-                UserRepository::insert($params);
-
                 $searchParams = [
                     "email" => $body["email"]
                 ];
 
                 $user = UserRepository::select($searchParams);
+
+                $params = [
+                    "full_name" => $body["full_name"],
+                    "email" => $body["email"],
+                    "password" => $body["password"],
+                    "active" => 1
+                ];
+
+                if ($user) {
+                    if ($user["active"] === 1) {
+                        $res::error(409, "User with this email already exists");
+                    }
+                    UserRepository::update($searchParams, $params);
+                } else {
+                    UserRepository::insert($params);
+                }
+
+                $user = UserRepository::select($searchParams);
                 $token = self::signAccessJWT(["id" => $user["id"]]);
 
-                $res::success(200, ["accessToken" => $token, "user" => $user]);
+                $res::success(201, ["accessToken" => $token, "user" => $user]);
             }
         );
     }
@@ -78,6 +88,15 @@ class UserController
                 );
 
                 $count = UserRepository::count();
+
+                switch (true) {
+                    case $users === false :
+                        $users = [];
+                        break;
+                    case array_key_exists("id", $users):
+                        $users = [$users];
+                        break;
+                }
 
                 $res::success(200, [...$count, "users" => $users]);
             }
